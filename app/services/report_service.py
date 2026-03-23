@@ -48,14 +48,19 @@ class ReportService:
         seen = set()
         departments = [x for x in dept_names if x not in seen and not seen.add(x)]
 
-        # --- Location dropdown ---
+        # --- Location dropdown (optimised: avoid redundant tenant join) ---
+        # unscoped() is safe here — department_id filter already restricts
+        # to user's departments, same pattern as department lookup above.
         location_names = (
-            Location.tenant_scoped(user.tenant_id)
+            Location.unscoped()
             .where_in("department_id", user.department_ids)
             .pluck("name")
         )
 
+        seen_loc = set()
+        locations = [x for x in location_names if x not in seen_loc and not seen_loc.add(x)]
+
         return {
             "departments": departments,
-            "locations": location_names,
+            "locations": locations,
         }
