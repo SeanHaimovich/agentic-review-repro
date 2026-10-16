@@ -10,3 +10,6 @@ still applies here.
    `handle_get_dropdowns`.
 3. Handlers must return `make_response(status, body)` from
    `services/api/responses.py`. Never return a bare dict or tuple.
+4. Only `services/api/config.py` may read environment variables
+   (`os.environ`, `os.getenv`). Handlers take their configuration from
+   `services.api.config.SETTINGS`.
