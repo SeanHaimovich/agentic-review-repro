@@ -8,11 +8,15 @@ name can appear under multiple department_ids.
 
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from typing import List
 
 from app.models.department import Department
 from app.models.location import Location
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -55,7 +59,9 @@ class ReportService:
             .pluck("name")
         )
 
+        logger.debug("dropdown options built", extra={"tenant_id": user.tenant_id})
         return {
             "departments": departments,
             "locations": location_names,
+            "generated_at": datetime.now(timezone.utc).isoformat(),
         }
