@@ -2,14 +2,12 @@
 
 from __future__ import annotations
 
-import logging
-
 from app.services.report_service import ReportService, User
 from services.api.log import get_logger
 from services.api.responses import Response, make_response
 
 logger = get_logger(__name__)
-audit_logger = logging.getLogger("tenantpay.audit")
+audit_logger = get_logger(__name__)
 
 
 def handle_get_dropdowns(user: User) -> Response:
