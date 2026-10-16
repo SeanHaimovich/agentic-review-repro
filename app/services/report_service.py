@@ -10,9 +10,9 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from typing import List
 
+import app.clock
 from app.models.department import Department
 from app.models.location import Location
 
@@ -63,5 +63,5 @@ class ReportService:
         return {
             "departments": departments,
             "locations": location_names,
-            "generated_at": datetime.now(timezone.utc).isoformat(),
+            "generated_at": app.clock.now().isoformat(),
         }
